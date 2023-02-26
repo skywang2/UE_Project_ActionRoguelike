@@ -19,7 +19,10 @@ public:
 	ASCharacter();
 
 protected:
+	UPROPERTY(VisibleAnywhere)//在蓝图编辑页面可以看到该组件的所有属性，右侧面板
 	USpringArmComponent* m_springArmComp;
+
+	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* m_cameraComp;
 
 	// Called when the game starts or when spawned
