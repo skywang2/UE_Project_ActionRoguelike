@@ -30,6 +30,8 @@ protected:
 
 	//键盘，向前移动
 	void MoveForward(float value);
+	//键盘，向右移动
+	void MoveRight(float value);
 
 public:	
 	// Called every frame

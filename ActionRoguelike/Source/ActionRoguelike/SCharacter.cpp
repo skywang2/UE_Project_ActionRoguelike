@@ -4,6 +4,8 @@
 #include "SCharacter.h"
 #include "GameFramework\SpringArmComponent.h"
 #include "Camera\CameraComponent.h"
+#include "GameFramework\Character.h"
+#include "GameFramework\CharacterMovementComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -13,10 +15,18 @@ ASCharacter::ASCharacter()
 
 	m_springArmComp = CreateDefaultSubobject<USpringArmComponent>("springArmComp");
 	m_springArmComp->SetupAttachment(RootComponent);//关联到root组件
+	m_springArmComp->bUsePawnControlRotation = true;
 
 	m_cameraComp = CreateDefaultSubobject<UCameraComponent>("cameraComp");
 	m_cameraComp->SetupAttachment(m_springArmComp);//关联到弹簧组件
 
+	//1.角色旋转与控制器脱钩，确保鼠标移动不会导致角色跟着水平旋转
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+
+	//2.让角色总是朝向运动方向
+	UCharacterMovementComponent* movement = GetCharacterMovement();
+	movement->bOrientRotationToMovement = true;
 }
 
 // Called when the game starts or when spawned
@@ -28,7 +38,23 @@ void ASCharacter::BeginPlay()
 
 void ASCharacter::MoveForward(float value)
 {
-	AddMovementInput(GetActorForwardVector(), value);
+	FRotator control = GetControlRotation();//获得控制器输入的俯仰角、偏航角、滚动角（有顺序的）
+	control.Pitch = 0;//目前只需要让人物偏航即可，其他两个的输入改为0
+	control.Roll = 0;
+	AddMovementInput(control.Vector(), value);
+	//AddMovementInput(GetActorForwardVector(), value);
+
+}
+
+void ASCharacter::MoveRight(float value)
+{
+	FVector forward = GetActorForwardVector();
+	//FRotator control = GetControlRotation();
+	//control.Pitch = 0;
+	//control.Roll = 0;
+	//forward += control.Vector();
+
+	AddMovementInput(forward, value);
 }
 
 // Called every frame
@@ -44,7 +70,9 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASCharacter::MoveForward);//前后移动
+	PlayerInputComponent->BindAxis("MoveRight", this, &ASCharacter::MoveRight);//左右移动
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);//偏航角移动，使用继承的函数
+	PlayerInputComponent->BindAxis("Pitch", this, &APawn::AddControllerPitchInput);//俯仰角
 }
 
