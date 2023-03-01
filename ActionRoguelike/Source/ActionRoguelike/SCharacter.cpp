@@ -7,6 +7,8 @@
 #include "GameFramework\Character.h"
 #include "GameFramework\CharacterMovementComponent.h"
 
+//shift + alt + F，这是VA的查找函数快捷键
+
 // Sets default values
 ASCharacter::ASCharacter()
 {
@@ -48,13 +50,18 @@ void ASCharacter::MoveForward(float value)
 
 void ASCharacter::MoveRight(float value)
 {
-	FVector forward = GetActorForwardVector();
-	//FRotator control = GetControlRotation();
+	FRotator control = GetControlRotation();
 	//control.Pitch = 0;
 	//control.Roll = 0;
-	//forward += control.Vector();
 
-	AddMovementInput(forward, value);
+	/*UE是左手坐标系
+	X向前
+	Y向右
+	Z向上	*/
+	//获取控制器的Y轴向量
+	FVector right = FRotationMatrix(control).GetScaledAxis(EAxis::Y);//获取control向量在Y轴上的投影
+
+	AddMovementInput(right, value);
 }
 
 // Called every frame
