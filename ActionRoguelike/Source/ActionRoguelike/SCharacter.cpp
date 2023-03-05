@@ -64,6 +64,18 @@ void ASCharacter::MoveRight(float value)
 	AddMovementInput(right, value);
 }
 
+void ASCharacter::PrimaryAttack()
+{
+	FVector spawnLocation = GetMesh()->GetSocketLocation("Chest");
+	//生成时的位置
+	FTransform spawnTM = FTransform(GetControlRotation(), spawnLocation);
+	//生成规则
+	FActorSpawnParameters spawnParams;
+	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
+}
+
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {
@@ -81,5 +93,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);//偏航角移动，使用继承的函数
 	PlayerInputComponent->BindAxis("Pitch", this, &APawn::AddControllerPitchInput);//俯仰角
+
+	PlayerInputComponent->BindAction("PrimaryAttack", IE_Released, this, &ASCharacter::PrimaryAttack);
 }
 
