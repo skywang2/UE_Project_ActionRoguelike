@@ -13,6 +13,10 @@ ASMagicProjectile::ASMagicProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	m_sphereComp = CreateDefaultSubobject<USphereComponent>("sphereComp");
+	m_sphereComp->SetCollisionObjectType(ECC_WorldDynamic);
+	//m_sphereComp->SetCollisionResponseToAllChannels(ECR_Block);//对所有类型都设置碰撞
+	//m_sphereComp->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);//对指定类型设置碰撞
+	m_sphereComp->SetCollisionProfileName("coll_projectile");//使用自定义的碰撞配置
 	RootComponent = m_sphereComp;
 	
 	m_particleComp = CreateDefaultSubobject<UParticleSystemComponent>("particleComp");
