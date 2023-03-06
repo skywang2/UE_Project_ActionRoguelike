@@ -9,6 +9,16 @@ ASItemChest::ASItemChest()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	m_bashMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BaseMesh"));
+	RootComponent = m_bashMesh;
+
+	m_lidMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidMesh"));
+	m_lidMesh->AttachToComponent(m_bashMesh);
+}
+
+void ASItemChest::Interact_Implementation(APawn* pawn)
+{
+
 }
 
 // Called when the game starts or when spawned
