@@ -13,7 +13,7 @@ ASItemChest::ASItemChest()
 	RootComponent = m_bashMesh;
 
 	m_lidMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidMesh"));
-	m_lidMesh->AttachToComponent(m_bashMesh);
+	m_lidMesh->SetupAttachment(m_bashMesh);
 }
 
 void ASItemChest::Interact_Implementation(APawn* pawn)

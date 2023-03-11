@@ -1,5 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+/*******************************************************************
+*版权信息：Copyright xxxxxxxxxxxxxxxxxxxxxx
+*文件名称：
+*文件标识：
+*摘要：
+*作者：wangzibin
+*日期：20230311
+*备注：抛射物类型
+*
+*当前版本：
+*版本说明：新建
+*******************************************************************/
 #pragma once
 
 #include "CoreMinimal.h"
