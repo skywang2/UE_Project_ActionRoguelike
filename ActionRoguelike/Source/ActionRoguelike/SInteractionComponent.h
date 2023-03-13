@@ -1,5 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+/*******************************************************************
+*版权信息：Copyright xxxxxxxxxxxxxxxxxxxxxx
+*文件名称：
+*文件标识：
+*摘要：
+*作者：wangzibin
+*日期：20230313
+*备注：定义Actor组件类，用于检测宝箱并触发其交互函数
+*
+*当前版本：
+*版本说明：新建
+*******************************************************************/
 #pragma once
 
 #include "CoreMinimal.h"
@@ -15,6 +25,8 @@ class ACTIONROGUELIKE_API USInteractionComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	USInteractionComponent();
+
+	void PrimaryInteract();
 
 protected:
 	// Called when the game starts
