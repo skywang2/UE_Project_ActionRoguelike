@@ -24,7 +24,7 @@ class USGameplayInterface : public UInterface
 };
 
 /**
- * 
+ * todo:不太明白为什么声明Interact函数，换个函数名可以吗
  */
 class ACTIONROGUELIKE_API ISGameplayInterface
 {

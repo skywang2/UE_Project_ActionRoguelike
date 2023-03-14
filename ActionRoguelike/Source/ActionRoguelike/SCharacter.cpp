@@ -6,6 +6,7 @@
 #include "Camera\CameraComponent.h"
 #include "GameFramework\Character.h"
 #include "GameFramework\CharacterMovementComponent.h"
+#include "SInteractionComponent.h"
 
 //shift + alt + F，这是VA的查找函数快捷键
 
@@ -29,6 +30,8 @@ ASCharacter::ASCharacter()
 	//2.让角色总是朝向运动方向
 	UCharacterMovementComponent* movement = GetCharacterMovement();
 	movement->bOrientRotationToMovement = true;
+
+	m_interactComp = CreateDefaultSubobject<USInteractionComponent>("interactionComp");//交互组件
 }
 
 // Called when the game starts or when spawned
@@ -76,6 +79,15 @@ void ASCharacter::PrimaryAttack()
 	GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
 }
 
+//将查询物体、交互操作放到组件对象中，实现交互功能与Actor类解耦
+void ASCharacter::PrimaryInteract()
+{
+	if (m_interactComp)
+	{
+		m_interactComp->PrimaryInteract();
+	}
+}
+
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {
@@ -95,5 +107,6 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("Pitch", this, &APawn::AddControllerPitchInput);//俯仰角
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Released, this, &ASCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("Interaction", IE_Released, this, &ASCharacter::PrimaryInteract);
 }
 

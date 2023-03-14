@@ -14,7 +14,7 @@ USInteractionComponent::USInteractionComponent()
 	// ...
 }
 
-
+//实现查找交互可对象；调用交互对象的交互函数
 void USInteractionComponent::PrimaryInteract()
 {
 	FCollisionObjectQueryParams queryParams;
