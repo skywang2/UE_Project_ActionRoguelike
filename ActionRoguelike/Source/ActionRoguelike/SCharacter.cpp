@@ -69,7 +69,16 @@ void ASCharacter::MoveRight(float value)
 
 void ASCharacter::PrimaryAttack()
 {
-	FVector spawnLocation = GetMesh()->GetSocketLocation("Chest");
+	//播放动画蒙太奇
+	PlayAnimMontage(m_AttackAnim);
+	//设置定时器，延迟0.2s后调用生成子弹的函数
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.3f);
+	//GetWorldTimerManager().ClearTimer(TimerHandle_PrimaryAttack);//清除定时器
+}
+
+void ASCharacter::PrimaryAttack_TimeElapsed()
+{
+	FVector spawnLocation = GetMesh()->GetSocketLocation("whip_IK_03_socket");
 	//生成时的位置
 	FTransform spawnTM = FTransform(GetControlRotation(), spawnLocation);
 	//生成规则

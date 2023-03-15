@@ -26,8 +26,14 @@ class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Attack")
 	TSubclassOf<AActor> m_projectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	UAnimMontage* m_AttackAnim;
+
+	FTimerHandle TimerHandle_PrimaryAttack;//子弹生成定时器
+
 public:
 	// Sets default values for this character's properties
 	ASCharacter();
@@ -42,7 +48,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		USInteractionComponent* m_interactComp;
 
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -52,6 +57,7 @@ protected:
 	void MoveRight(float value);
 	//发动攻击
 	void PrimaryAttack();
+	void PrimaryAttack_TimeElapsed();
 	//与宝箱交互，触发
 	void PrimaryInteract();
 
