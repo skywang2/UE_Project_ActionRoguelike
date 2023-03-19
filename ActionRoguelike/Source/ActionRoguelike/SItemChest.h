@@ -29,10 +29,10 @@ public:
 	void Interact_Implementation(APawn* pawn);
 
 protected:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* m_bashMesh;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* m_lidMesh;
 
 	// Called when the game starts or when spawned
