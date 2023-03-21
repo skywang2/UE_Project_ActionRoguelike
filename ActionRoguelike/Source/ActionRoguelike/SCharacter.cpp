@@ -67,6 +67,12 @@ void ASCharacter::MoveRight(float value)
 	AddMovementInput(right, value);
 }
 
+//void ASCharacter::JumpUp()
+//{
+//	Jump();
+//	//AddMovementInput()
+//}
+
 void ASCharacter::PrimaryAttack()
 {
 	//²¥·Å¶¯»­ÃÉÌ«Ææ
@@ -115,6 +121,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);//Æ«º½½ÇÒÆ¶¯£¬Ê¹ÓÃ¼Ì³ÐµÄº¯Êý
 	PlayerInputComponent->BindAxis("Pitch", this, &APawn::AddControllerPitchInput);//¸©Ñö½Ç
+	PlayerInputComponent->BindAction("JumpUp", IE_Pressed, this, &ASCharacter::Jump);//ÌøÔ¾
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Released, this, &ASCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("Interaction", IE_Released, this, &ASCharacter::PrimaryInteract);

@@ -55,6 +55,8 @@ protected:
 	void MoveForward(float value);
 	//键盘，向右移动
 	void MoveRight(float value);
+	//键盘，跳起
+	//void JumpUp();
 	//发动攻击
 	void PrimaryAttack();
 	void PrimaryAttack_TimeElapsed();
