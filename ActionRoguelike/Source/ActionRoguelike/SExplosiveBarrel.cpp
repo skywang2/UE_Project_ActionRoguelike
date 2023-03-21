@@ -3,6 +3,7 @@
 
 #include "SExplosiveBarrel.h"
 #include "PhysicsEngine/RadialForceComponent.h"
+#include "SMagicProjectile.h"
 
 // Sets default values
 ASExplosiveBarrel::ASExplosiveBarrel()
@@ -21,7 +22,8 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 	m_forceComp->Radius = 500.f;//半径
 	m_forceComp->ImpulseStrength = 1500.f;//冲量大小，如果bImpulseVelChange = false，则需要至少200000.f才能由明显效果
 	m_forceComp->bImpulseVelChange = true;
-	m_forceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
+	m_forceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);//在细节-径向力组件-要影响的对象类型
+	//需要开启模拟命中事件，并过滤碰撞时的Actor对象
 }
 
 // Called when the game starts or when spawned
@@ -41,7 +43,11 @@ void ASExplosiveBarrel::PostInitializeComponents()
 
 void ASExplosiveBarrel::OnActorHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	m_forceComp->FireImpulse();//对半径内的对象发射径向力
+
+	if (ASMagicProjectile* HitActor = Cast<ASMagicProjectile>(OtherActor))
+	{
+		m_forceComp->FireImpulse();//对半径内的对象发射径向力
+	}
 }
 
 // Called every frame
