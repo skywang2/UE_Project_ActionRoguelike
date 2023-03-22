@@ -46,6 +46,10 @@ void ASExplosiveBarrel::OnActorHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 
 	if (ASMagicProjectile* HitActor = Cast<ASMagicProjectile>(OtherActor))
 	{
+		UE_LOG(LogTemp, Log, TEXT("OnActorHit Log"));
+		UE_LOG(LogTemp, Warning, TEXT("OnActorHit Warning:%s, at time:%f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds);
+		FString outString = FString::Printf(TEXT("hit point:%s"), *Hit.ImpactPoint.ToString());
+		DrawDebugString(GetWorld(), Hit.ImpactPoint, outString, nullptr, FColor::Green, 2.f, true, 2.f);
 		m_forceComp->FireImpulse();//对半径内的对象发射径向力
 	}
 }
