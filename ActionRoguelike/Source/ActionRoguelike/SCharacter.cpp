@@ -7,6 +7,7 @@
 #include "GameFramework\Character.h"
 #include "GameFramework\CharacterMovementComponent.h"
 #include "SInteractionComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 //shift + alt + F，这是VA的查找函数快捷键
 
@@ -84,13 +85,41 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	FVector spawnLocation = GetMesh()->GetSocketLocation("whip_IK_03_socket");
 	//生成时的位置
-	FTransform spawnTM = FTransform(GetControlRotation(), spawnLocation);
+	FVector spawnLocation = GetMesh()->GetSocketLocation("whip_IK_03_socket");
+
+	//生成时的姿态（朝向）
+	FHitResult hit;
+	FCollisionObjectQueryParams objectQueryParams;
+	FVector start, end;
+	FVector EyeLocation;
+	FRotator EyeRotation;
+
+	GetController()->GetPlayerViewPoint(EyeLocation, EyeRotation);//获取玩家（摄像机）视角位置、姿态
+	start = EyeLocation;
+	end = EyeLocation + EyeRotation.Vector() * 2000;//超过距离会检测不到碰撞，并使用GetControlRotation()作为方向
+	//objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//添加被碰撞检测的类型
+	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(hit, start, end, objectQueryParams);
+	UE_LOG(LogTemp, Log, TEXT("start:%s, end:%s"), *start.ToString(), *end.ToString());
+	FColor lineColor = bBlockingHit ? FColor::Green : FColor::Red;
+	DrawDebugLine(GetWorld(), start, end, lineColor, false, 2.f, 0, 2.f);//绘制一条指向宝箱的线段
+
+	AActor* hitActor = hit.GetActor();//被击中对象
+	FRotator spawnRotation;
+	if (hitActor)
+	{		
+		spawnRotation = UKismetMathLibrary::FindLookAtRotation(spawnLocation, hit.ImpactPoint);
+	}
+	else
+	{
+		spawnRotation = GetControlRotation();
+	}
+	FTransform spawnTM = FTransform(spawnRotation, spawnLocation);
+
 	//生成规则
 	FActorSpawnParameters spawnParams;
-	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	spawnParams.Instigator = this;
+	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;//避免生成时卡在模型里
+	spawnParams.Instigator = this;//子弹拥有者
 
 	GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
 }
