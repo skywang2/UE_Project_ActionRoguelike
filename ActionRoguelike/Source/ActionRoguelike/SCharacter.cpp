@@ -121,7 +121,10 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;//避免生成时卡在模型里
 	spawnParams.Instigator = this;//子弹拥有者
 
-	GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
+	if (ensure(m_projectileClass))//用断言检查条件是否为真
+	{
+		GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
+	}
 }
 
 //将查询物体、交互操作放到组件对象中，实现交互功能与Actor类解耦
