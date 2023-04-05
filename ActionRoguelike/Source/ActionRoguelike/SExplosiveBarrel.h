@@ -1,5 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+/*******************************************************************
+*版权信息：Copyright xxxxxxxxxxxxxxxxxxxxxx
+*文件名称：
+*文件标识：
+*摘要：
+*作者：wangzibin
+*日期：20230313
+*备注：定义爆炸桶类，在组件初始化后
+*	Actor生命周期文档：https://docs.unrealengine.com/5.1/zh-CN/unreal-engine-actor-lifecycle/
+*
+*当前版本：
+*版本说明：新建
+*******************************************************************/
 #pragma once
 
 #include "CoreMinimal.h"

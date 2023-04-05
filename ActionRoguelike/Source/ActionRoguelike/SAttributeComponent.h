@@ -1,5 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+/*******************************************************************
+*版权信息：Copyright xxxxxxxxxxxxxxxxxxxxxx
+*文件名称：
+*文件标识：
+*摘要：
+*作者：wangzibin
+*日期：20230405
+*备注：定义角色属性组件，用于保存、计算各种属性，如血量、攻击力等
+*
+*当前版本：
+*版本说明：新建
+*******************************************************************/
 #pragma once
 
 #include "CoreMinimal.h"
@@ -14,15 +24,13 @@ class ACTIONROGUELIKE_API USAttributeComponent : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	USAttributeComponent();
+	USAttributeComponent();	
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	bool ApplyHealthChange(float Delta);
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
+	float m_health;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 };

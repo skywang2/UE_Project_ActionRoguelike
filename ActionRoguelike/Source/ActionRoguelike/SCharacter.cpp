@@ -6,8 +6,9 @@
 #include "Camera\CameraComponent.h"
 #include "GameFramework\Character.h"
 #include "GameFramework\CharacterMovementComponent.h"
-#include "SInteractionComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "SInteractionComponent.h"
+#include "SAttributeComponent.h"
 
 //shift + alt + F，这是VA的查找函数快捷键
 
@@ -23,6 +24,8 @@ ASCharacter::ASCharacter()
 
 	m_cameraComp = CreateDefaultSubobject<UCameraComponent>("cameraComp");
 	m_cameraComp->SetupAttachment(m_springArmComp);//关联到弹簧组件
+
+	m_attributeComp = CreateDefaultSubobject<USAttributeComponent>("attributeComp");//属性组件
 
 	//1.角色旋转与控制器脱钩，确保鼠标移动不会导致角色跟着水平旋转
 	bUseControllerRotationPitch = false;
