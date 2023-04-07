@@ -16,6 +16,8 @@
 #include "Components/ActorComponent.h"
 #include "SAttributeComponent.generated.h"
 
+//创建生命值改变事件代理
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged/*事件名*/, AActor*, InstigatorActor, USAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTIONROGUELIKE_API USAttributeComponent : public UActorComponent
