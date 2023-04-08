@@ -14,5 +14,7 @@ bool USAttributeComponent::ApplyHealthChange(float Delta)
 {
 	m_health += Delta;
 
+	m_OnHealthChanged.Broadcast(nullptr, this, m_health, Delta);//发出血量改变事件广播
+
 	return false;
 }

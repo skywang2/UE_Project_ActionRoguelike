@@ -14,6 +14,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Delegates/DelegateCombinations.h"
 #include "SAttributeComponent.generated.h"
 
 //创建生命值改变事件代理
@@ -30,6 +31,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool ApplyHealthChange(float Delta);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthChanged m_OnHealthChanged;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
