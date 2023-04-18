@@ -94,6 +94,7 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	//生成时的姿态（朝向）
 	FHitResult hit;
 	FCollisionObjectQueryParams objectQueryParams;
+	FCollisionQueryParams queryParams;
 	FVector start, end;
 	FVector EyeLocation;
 	FRotator EyeRotation;
@@ -101,8 +102,12 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	GetController()->GetPlayerViewPoint(EyeLocation, EyeRotation);//获取玩家（摄像机）视角位置、姿态
 	start = EyeLocation;
 	end = EyeLocation + EyeRotation.Vector() * 2000;//超过距离会检测不到碰撞，并使用GetControlRotation()作为方向
+	//start = m_cameraComp->GetComponentLocation();//与上面效果相同
+	//end = start + (GetControlRotation().Vector() * 2000);
+	
 	//objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//添加被碰撞检测的类型
-	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(hit, start, end, objectQueryParams);
+	queryParams.AddIgnoredActor(this);//避免与角色碰撞检测，否则角色面朝右侧，右手发射子弹时会与角色碰撞，然后子弹飞向角色
+	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(hit, start, end, objectQueryParams, queryParams);
 	UE_LOG(LogTemp, Log, TEXT("start:%s, end:%s"), *start.ToString(), *end.ToString());
 	FColor lineColor = bBlockingHit ? FColor::Green : FColor::Red;
 	DrawDebugLine(GetWorld(), start, end, lineColor, false, 2.f, 0, 2.f);//绘制一条指向宝箱的线段
@@ -112,12 +117,12 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	if (hitActor)
 	{		
 		spawnRotation = UKismetMathLibrary::FindLookAtRotation(spawnLocation, hit.ImpactPoint);
+		//spawnRotation = FRotationMatrix::MakeFromX(hit.ImpactPoint - spawnLocation).Rotator();//与上面效果相同
 	}
 	else
 	{
 		spawnRotation = GetControlRotation();
 	}
-	FTransform spawnTM = FTransform(spawnRotation, spawnLocation);
 
 	//生成规则
 	FActorSpawnParameters spawnParams;
@@ -126,6 +131,7 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 
 	if (ensure(m_projectileClass))//用断言检查条件是否为真
 	{
+		FTransform spawnTM = FTransform(spawnRotation, spawnLocation);
 		GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
 	}
 }
