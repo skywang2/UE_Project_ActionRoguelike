@@ -18,3 +18,8 @@ bool USAttributeComponent::ApplyHealthChange(float Delta)
 
 	return false;
 }
+
+bool USAttributeComponent::IsAlive()
+{
+	return m_health > 0.f;
+}

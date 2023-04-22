@@ -145,6 +145,22 @@ void ASCharacter::PrimaryInteract()
 	}
 }
 
+void ASCharacter::HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
+{
+	if (NewHealth <= 0.f && Delta < 0.f)
+	{
+		APlayerController* pc = Cast<APlayerController>(GetController());
+		DisableInput(pc);//禁止控制器输入
+	}
+}
+
+void ASCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	m_attributeComp->m_OnHealthChanged.AddDynamic(this, &ASCharacter::HealthChanged);//角色死亡后禁止操作输入
+}
+
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {

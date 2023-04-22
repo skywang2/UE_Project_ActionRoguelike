@@ -67,6 +67,11 @@ protected:
 	//与宝箱交互，触发
 	void PrimaryInteract();
 
+	UFUNCTION()
+		void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//定义事件处理函数
+
+	virtual void PostInitializeComponents() override;//组件初始化后操作
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
