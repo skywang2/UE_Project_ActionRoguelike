@@ -14,4 +14,9 @@ class ACTIONROGUELIKE_API ASAIController : public AAIController
 {
 	GENERATED_BODY()
 	
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "AI_Set")
+	UBehaviorTree* m_behaviorTree;
+
+	virtual void BeginPlay() override;
 };

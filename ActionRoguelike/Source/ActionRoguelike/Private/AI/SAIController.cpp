@@ -3,3 +3,9 @@
 
 #include "AI/SAIController.h"
 
+void ASAIController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	RunBehaviorTree(m_behaviorTree);
+}
