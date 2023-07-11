@@ -26,8 +26,13 @@ void USBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, u
 				if(ensure(aiPawn))
 				{
 					const float distanceTo = FVector::Distance(target->GetActorLocation(), aiPawn->GetActorLocation());
-					bool bWithinRange = distanceTo < 2000.f;
-					blackboard->SetValueAsBool(AttackRangeKey.SelectedKeyName, bWithinRange);//在编辑器中设置黑板变量
+					bool bWithinRange = distanceTo < 1500.f;
+					bool bHasLOS = false;
+					if(bWithinRange)
+					{
+						bHasLOS = controller->LineOfSightTo(target);//判断能不能看到目标对象
+					}
+					blackboard->SetValueAsBool(AttackRangeKey.SelectedKeyName, bWithinRange && bHasLOS);//在编辑器中设置黑板变量
 				}
 			}
 		}
