@@ -1,14 +1,14 @@
 /*******************************************************************
-*°æÈ¨ĞÅÏ¢£ºCopyright xxxxxxxxxxxxxxxxxxxxxx
-*ÎÄ¼şÃû³Æ£º
-*ÎÄ¼ş±êÊ¶£º
-*ÕªÒª£º
-*×÷Õß£ºwangzibin
-*ÈÕÆÚ£º20230405
-*±¸×¢£º¶¨Òå½ÇÉ«ÊôĞÔ×é¼ş£¬ÓÃÓÚ±£´æ¡¢¼ÆËã¸÷ÖÖÊôĞÔ£¬ÈçÑªÁ¿¡¢¹¥»÷Á¦µÈ
+*ç‰ˆæƒä¿¡æ¯ï¼šCopyright xxxxxxxxxxxxxxxxxxxxxx
+*æ–‡ä»¶åç§°ï¼š
+*æ–‡ä»¶æ ‡è¯†ï¼š
+*æ‘˜è¦ï¼š
+*ä½œè€…ï¼šwangzibin
+*æ—¥æœŸï¼š20230405
+*å¤‡æ³¨ï¼šå®šä¹‰è§’è‰²å±æ€§ç»„ä»¶ï¼Œç”¨äºä¿å­˜ã€è®¡ç®—å„ç§å±æ€§ï¼Œå¦‚è¡€é‡ã€æ”»å‡»åŠ›ç­‰
 *
-*µ±Ç°°æ±¾£º
-*°æ±¾ËµÃ÷£ºĞÂ½¨
+*å½“å‰ç‰ˆæœ¬ï¼š
+*ç‰ˆæœ¬è¯´æ˜ï¼šæ–°å»º
 *******************************************************************/
 #pragma once
 
@@ -17,8 +17,8 @@
 #include "Delegates/DelegateCombinations.h"
 #include "SAttributeComponent.generated.h"
 
-//´´½¨ÉúÃüÖµ¸Ä±äÊÂ¼ş´úÀí
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged/*ÊÂ¼şÃû*/, AActor*, InstigatorActor, USAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
+//åˆ›å»ºç”Ÿå‘½å€¼æ”¹å˜äº‹ä»¶ä»£ç†
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged/*äº‹ä»¶å*/, AActor*, InstigatorActor, USAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTIONROGUELIKE_API USAttributeComponent : public UActorComponent

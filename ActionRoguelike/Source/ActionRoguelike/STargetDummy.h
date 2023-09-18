@@ -1,14 +1,14 @@
 /*******************************************************************
-*°æÈ¨ĞÅÏ¢£ºCopyright xxxxxxxxxxxxxxxxxxxxxx
-*ÎÄ¼şÃû³Æ£º
-*ÎÄ¼ş±êÊ¶£º
-*ÕªÒª£º
-*×÷Õß£ºwangzibin
-*ÈÕÆÚ£º20230405
-*±¸×¢£ºÓÃÓÚ²âÊÔÎÆÀíĞ§¹ûµÄActorÀà
+*ç‰ˆæƒä¿¡æ¯ï¼šCopyright xxxxxxxxxxxxxxxxxxxxxx
+*æ–‡ä»¶åç§°ï¼š
+*æ–‡ä»¶æ ‡è¯†ï¼š
+*æ‘˜è¦ï¼š
+*ä½œè€…ï¼šwangzibin
+*æ—¥æœŸï¼š20230405
+*å¤‡æ³¨ï¼šç”¨äºæµ‹è¯•çº¹ç†æ•ˆæœçš„Actorç±»
 *
-*µ±Ç°°æ±¾£º
-*°æ±¾ËµÃ÷£ºĞÂ½¨
+*å½“å‰ç‰ˆæœ¬ï¼š
+*ç‰ˆæœ¬è¯´æ˜ï¼šæ–°å»º
 *******************************************************************/
 #pragma once
 
@@ -34,5 +34,5 @@ protected:
 	USAttributeComponent* m_attributeComp;
 
 	UFUNCTION()
-	void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//¶¨ÒåÊÂ¼ş´¦Àíº¯Êı
+	void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//å®šä¹‰äº‹ä»¶å¤„ç†å‡½æ•°
 };

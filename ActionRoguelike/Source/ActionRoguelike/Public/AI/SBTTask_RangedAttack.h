@@ -14,7 +14,7 @@ class ACTIONROGUELIKE_API USBTTask_RangedAttack : public UBTTaskNode
 {
 	GENERATED_BODY()
 
-	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 public:
 	UPROPERTY(EditAnywhere, Category = "AI_Set")

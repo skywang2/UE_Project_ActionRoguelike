@@ -7,6 +7,11 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
 
+/* brief 从黑板获取目标位置，并从当前枪口生成子弹飞向目标
+ * ParamIn OwnerComp
+ * ParamOut
+ * Return Type
+ */
 EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAIController* controller = OwnerComp.GetAIOwner();
@@ -26,7 +31,12 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 		{
 			return EBTNodeResult::Failed;			
 		}
+		//获取目标对象
 		AActor* target = Cast<AActor>(blackboard->GetValueAsObject("TargetActor"));
+		if(nullptr == target)
+		{
+			return EBTNodeResult::Failed;
+		}
 		FVector targetLocation = target->GetActorLocation();
 		
 		//生成子弹并拥有初始方向、速度
