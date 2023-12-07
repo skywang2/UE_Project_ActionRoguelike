@@ -12,10 +12,13 @@ void ASAIController::BeginPlay()
 
 	RunBehaviorTree(m_behaviorTree);
 
+	//获取玩家pawn，把玩家的对象和位置坐标记录到黑板	
+
 	APawn* MyPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 	if(MyPawn)
 	{
 		GetBlackboardComponent()->SetValueAsVector("MoveToLocation", MyPawn->GetActorLocation());
 		GetBlackboardComponent()->SetValueAsObject("TargetActor", MyPawn);
 	}
+
 }

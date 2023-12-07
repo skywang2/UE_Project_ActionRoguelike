@@ -55,7 +55,7 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 		USAttributeComponent* attributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (attributeComp)
 		{
-			attributeComp->ApplyHealthChange(-20.f);//击中时扣固定血量
+			attributeComp->ApplyHealthChange(-2.f);//击中时扣固定血量
 
 			Destroy();
 		}

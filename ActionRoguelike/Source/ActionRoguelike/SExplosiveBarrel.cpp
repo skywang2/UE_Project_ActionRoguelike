@@ -17,13 +17,13 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 
 	m_forceComp = CreateDefaultSubobject<URadialForceComponent>("ForceComp");
 	m_forceComp->SetupAttachment(m_meshComp);
-	m_forceComp->SetAutoActivate(false);//²»×Ô¶¯¼¤»î
+	m_forceComp->SetAutoActivate(false);//ä¸è‡ªåŠ¨æ¿€æ´»
 
-	m_forceComp->Radius = 500.f;//°ë¾¶
-	m_forceComp->ImpulseStrength = 1500.f;//³åÁ¿´óĞ¡£¬Èç¹ûbImpulseVelChange = false£¬ÔòĞèÒªÖÁÉÙ200000.f²ÅÄÜÓÉÃ÷ÏÔĞ§¹û
+	m_forceComp->Radius = 500.f;//åŠå¾„
+	m_forceComp->ImpulseStrength = 1500.f;//å†²é‡å¤§å°ï¼Œå¦‚æœbImpulseVelChange = falseï¼Œåˆ™éœ€è¦è‡³å°‘200000.fæ‰èƒ½ç”±æ˜æ˜¾æ•ˆæœ
 	m_forceComp->bImpulseVelChange = true;
-	m_forceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);//ÔÚÏ¸½Ú-¾¶ÏòÁ¦×é¼ş-ÒªÓ°ÏìµÄ¶ÔÏóÀàĞÍ
-	//ĞèÒª¿ªÆôÄ£ÄâÃüÖĞÊÂ¼ş£¬²¢¹ıÂËÅö×²Ê±µÄActor¶ÔÏó
+	m_forceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);//åœ¨ç»†èŠ‚-å¾„å‘åŠ›ç»„ä»¶-è¦å½±å“çš„å¯¹è±¡ç±»å‹
+	//éœ€è¦å¼€å¯æ¨¡æ‹Ÿå‘½ä¸­äº‹ä»¶ï¼Œå¹¶è¿‡æ»¤ç¢°æ’æ—¶çš„Actorå¯¹è±¡
 }
 
 // Called when the game starts or when spawned
@@ -37,7 +37,7 @@ void ASExplosiveBarrel::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	//×¢²áÅö×²ÏìÓ¦º¯Êı
+	//æ³¨å†Œç¢°æ’å“åº”å‡½æ•°
 	m_meshComp->OnComponentHit.AddDynamic(this, &ASExplosiveBarrel::OnActorHit);
 }
 
@@ -50,7 +50,7 @@ void ASExplosiveBarrel::OnActorHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 		UE_LOG(LogTemp, Warning, TEXT("OnActorHit Warning:%s, at time:%f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds);
 		FString outString = FString::Printf(TEXT("hit point:%s"), *Hit.ImpactPoint.ToString());
 		DrawDebugString(GetWorld(), Hit.ImpactPoint, outString, nullptr, FColor::Green, 2.f, true, 2.f);
-		m_forceComp->FireImpulse();//¶Ô°ë¾¶ÄÚµÄ¶ÔÏó·¢Éä¾¶ÏòÁ¦
+		m_forceComp->FireImpulse();//å¯¹åŠå¾„å†…çš„å¯¹è±¡å‘å°„å¾„å‘åŠ›
 	}
 }
 
