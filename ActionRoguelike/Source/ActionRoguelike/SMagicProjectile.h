@@ -14,6 +14,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Sound/SoundCue.h"
 #include "SMagicProjectile.generated.h"
 class USphereComponent;
 class UProjectileMovementComponent;
@@ -41,6 +42,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent* m_particleComp;
 
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* m_spawnSoundCue;//音频组件
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

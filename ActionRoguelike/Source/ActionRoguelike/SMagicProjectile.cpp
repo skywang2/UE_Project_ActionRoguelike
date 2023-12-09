@@ -6,6 +6,7 @@
 #include "Particles\ParticleSystemComponent.h"
 #include "GameFramework\ProjectileMovementComponent.h"
 #include "SAttributeComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASMagicProjectile::ASMagicProjectile()
@@ -15,9 +16,9 @@ ASMagicProjectile::ASMagicProjectile()
 	
 	m_sphereComp = CreateDefaultSubobject<USphereComponent>("sphereComp");
 	m_sphereComp->SetCollisionObjectType(ECC_WorldDynamic);
-	//m_sphereComp->SetCollisionResponseToAllChannels(ECR_Block);//¶ÔËùÓĞÀàĞÍ¶¼ÉèÖÃÅö×²
-	//m_sphereComp->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);//¶ÔÖ¸¶¨ÀàĞÍÉèÖÃÅö×²
-	m_sphereComp->SetCollisionProfileName("coll_projectile");//Ê¹ÓÃ×Ô¶¨ÒåµÄÅö×²ÅäÖÃ
+	//m_sphereComp->SetCollisionResponseToAllChannels(ECR_Block);//å¯¹æ‰€æœ‰ç±»å‹éƒ½è®¾ç½®ç¢°æ’
+	//m_sphereComp->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);//å¯¹æŒ‡å®šç±»å‹è®¾ç½®ç¢°æ’
+	m_sphereComp->SetCollisionProfileName("coll_projectile");//ä½¿ç”¨è‡ªå®šä¹‰çš„ç¢°æ’é…ç½®
 	m_sphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASMagicProjectile::OnActorOverlap);
 	RootComponent = m_sphereComp;
 	
@@ -34,7 +35,11 @@ ASMagicProjectile::ASMagicProjectile()
 void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if(ensure(m_spawnSoundCue))
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, m_spawnSoundCue, GetActorLocation(), GetActorRotation());
+	}
 }
 
 // Called every frame
@@ -44,21 +49,25 @@ void ASMagicProjectile::Tick(float DeltaTime)
 
 }
 
-//ÎïÌåÖØµşÊÂ¼ş´¦Àíº¯Êı£¬×Óµ¯ºÍÎïÌåÖØµşÊ±¼õÉÙÑªÁ¿£¬²¢Ïú»Ù×Óµ¯
+//ç‰©ä½“é‡å äº‹ä»¶å¤„ç†å‡½æ•°ï¼Œå­å¼¹å’Œç‰©ä½“é‡å æ—¶å‡å°‘è¡€é‡ï¼Œå¹¶é”€æ¯å­å¼¹
 void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, 
 	AActor* OtherActor, UPrimitiveComponent* OtherComp, 
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && OtherActor != GetInstigator())
 	{
-		//Ö´ĞĞ»÷ÖĞÄ¿±êµÄÑªÁ¿¸Ä±äº¯Êı
+		//æ‰§è¡Œå‡»ä¸­ç›®æ ‡çš„è¡€é‡æ”¹å˜å‡½æ•°
 		USAttributeComponent* attributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (attributeComp)
 		{
-			attributeComp->ApplyHealthChange(-2.f);//»÷ÖĞÊ±¿Û¹Ì¶¨ÑªÁ¿
-
-			Destroy();
+			attributeComp->ApplyHealthChange(-2.f);//å‡»ä¸­æ—¶æ‰£å›ºå®šè¡€é‡
+			UE_LOG(LogTemp, Log, TEXT("hit object has attributecomp"));
 		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("hit object without attributecomp"));
+		}
+		Destroy();
 	}
 }
 
