@@ -1,14 +1,14 @@
 /*******************************************************************
-*°æÈ¨ĞÅÏ¢£ºCopyright xxxxxxxxxxxxxxxxxxxxxx
-*ÎÄ¼şÃû³Æ£º
-*ÎÄ¼ş±êÊ¶£º
-*ÕªÒª£º
-*×÷Õß£ºwangzibin
-*ÈÕÆÚ£º20230311
-*±¸×¢£º¶¨ÒåÓÃÓÚÀ©Õ¹actorµÈ¶ÔÏóµÄ½»»¥²Ù×÷
+*ç‰ˆæƒä¿¡æ¯ï¼šCopyright xxxxxxxxxxxxxxxxxxxxxx
+*æ–‡ä»¶åç§°ï¼š
+*æ–‡ä»¶æ ‡è¯†ï¼š
+*æ‘˜è¦ï¼š
+*ä½œè€…ï¼šwangzibin
+*æ—¥æœŸï¼š20230311
+*å¤‡æ³¨ï¼šå®šä¹‰ç”¨äºæ‰©å±•actorç­‰å¯¹è±¡çš„äº¤äº’æ“ä½œ
 *
-*µ±Ç°°æ±¾£º
-*°æ±¾ËµÃ÷£ºĞÂ½¨
+*å½“å‰ç‰ˆæœ¬ï¼š
+*ç‰ˆæœ¬è¯´æ˜ï¼šæ–°å»º
 *******************************************************************/
 #pragma once
 
@@ -24,7 +24,7 @@ class USGameplayInterface : public UInterface
 };
 
 /**
- * todo:²»Ì«Ã÷°×ÎªÊ²Ã´ÉùÃ÷Interactº¯Êı£¬»»¸öº¯ÊıÃû¿ÉÒÔÂğ
+ * todo:ä¸å¤ªæ˜ç™½ä¸ºä»€ä¹ˆå£°æ˜Interactå‡½æ•°ï¼Œæ¢ä¸ªå‡½æ•°åå¯ä»¥å—
  */
 class ACTIONROGUELIKE_API ISGameplayInterface
 {
@@ -33,6 +33,6 @@ class ACTIONROGUELIKE_API ISGameplayInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)//u8"Ö¼ÔÚ±»À¶Í¼¸²¸Çµô£¬µ«ÊÇÒ²¾ßÓĞÄ¬ÈÏÔ­ÉúÊµÏÖ"
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)//u8"æ—¨åœ¨è¢«è“å›¾è¦†ç›–æ‰ï¼Œä½†æ˜¯ä¹Ÿå…·æœ‰é»˜è®¤åŸç”Ÿå®ç°"
 	void Interact(APawn* pawn);
 };

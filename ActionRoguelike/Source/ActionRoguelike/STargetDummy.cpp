@@ -19,7 +19,7 @@ ASTargetDummy::ASTargetDummy()
 
 void ASTargetDummy::HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
 {
-	//ÉúÃüÖµ¼õÉÙ
+	//ç”Ÿå‘½å€¼å‡å°‘
 	if (Delta < 0.f)
 	{
 		m_sphereComp->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);

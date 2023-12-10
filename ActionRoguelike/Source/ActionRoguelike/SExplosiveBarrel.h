@@ -1,15 +1,15 @@
 /*******************************************************************
-*°æÈ¨ĞÅÏ¢£ºCopyright xxxxxxxxxxxxxxxxxxxxxx
-*ÎÄ¼şÃû³Æ£º
-*ÎÄ¼ş±êÊ¶£º
-*ÕªÒª£º
-*×÷Õß£ºwangzibin
-*ÈÕÆÚ£º20230313
-*±¸×¢£º¶¨Òå±¬Õ¨Í°Àà£¬ÔÚ×é¼ş³õÊ¼»¯ºó
-*	ActorÉúÃüÖÜÆÚÎÄµµ£ºhttps://docs.unrealengine.com/5.1/zh-CN/unreal-engine-actor-lifecycle/
+*ç‰ˆæƒä¿¡æ¯ï¼šCopyright xxxxxxxxxxxxxxxxxxxxxx
+*æ–‡ä»¶åç§°ï¼š
+*æ–‡ä»¶æ ‡è¯†ï¼š
+*æ‘˜è¦ï¼š
+*ä½œè€…ï¼šwangzibin
+*æ—¥æœŸï¼š20230313
+*å¤‡æ³¨ï¼šå®šä¹‰çˆ†ç‚¸æ¡¶ç±»ï¼Œåœ¨ç»„ä»¶åˆå§‹åŒ–å
+*	Actorç”Ÿå‘½å‘¨æœŸæ–‡æ¡£ï¼šhttps://docs.unrealengine.com/5.1/zh-CN/unreal-engine-actor-lifecycle/
 *
-*µ±Ç°°æ±¾£º
-*°æ±¾ËµÃ÷£ºĞÂ½¨
+*å½“å‰ç‰ˆæœ¬ï¼š
+*ç‰ˆæœ¬è¯´æ˜ï¼šæ–°å»º
 *******************************************************************/
 #pragma once
 
@@ -40,10 +40,10 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	URadialForceComponent* m_forceComp;
 
-	//ÔÚ¸ÃÀàËùÓĞ×é¼ş³õÊ¼»¯ºóµ÷ÓÃ
+	//åœ¨è¯¥ç±»æ‰€æœ‰ç»„ä»¶åˆå§‹åŒ–åè°ƒç”¨
 	virtual void PostInitializeComponents() override;
 
-	//±»Actor»÷ÖĞµÄÏìÓ¦º¯Êı
+	//è¢«Actorå‡»ä¸­çš„å“åº”å‡½æ•°
 	UFUNCTION()
 	void OnActorHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit); 
 

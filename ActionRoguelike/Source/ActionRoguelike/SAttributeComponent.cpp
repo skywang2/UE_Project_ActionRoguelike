@@ -14,7 +14,7 @@ bool USAttributeComponent::ApplyHealthChange(float Delta)
 {
 	m_health += Delta;
 
-	m_OnHealthChanged.Broadcast(nullptr, this, m_health, Delta);//·¢³öÑªÁ¿¸Ä±äÊÂ¼ş¹ã²¥
+	m_OnHealthChanged.Broadcast(nullptr, this, m_health, Delta);//å‘å‡ºè¡€é‡æ”¹å˜äº‹ä»¶å¹¿æ’­
 
 	return false;
 }

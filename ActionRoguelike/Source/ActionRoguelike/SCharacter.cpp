@@ -10,32 +10,33 @@
 #include "SInteractionComponent.h"
 #include "SAttributeComponent.h"
 
-//shift + alt + F£¬ÕâÊÇVAµÄ²éÕÒº¯Êı¿ì½İ¼ü
+//shift + alt + Fï¼Œè¿™æ˜¯VAçš„æŸ¥æ‰¾å‡½æ•°å¿«æ·é”®
 
 // Sets default values
 ASCharacter::ASCharacter()
+	:IsIEReleased(true)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	m_springArmComp = CreateDefaultSubobject<USpringArmComponent>("springArmComp");
-	m_springArmComp->SetupAttachment(RootComponent);//¹ØÁªµ½root×é¼ş
+	m_springArmComp->SetupAttachment(RootComponent);//å…³è”åˆ°rootç»„ä»¶
 	m_springArmComp->bUsePawnControlRotation = true;
 
 	m_cameraComp = CreateDefaultSubobject<UCameraComponent>("cameraComp");
-	m_cameraComp->SetupAttachment(m_springArmComp);//¹ØÁªµ½µ¯»É×é¼ş
+	m_cameraComp->SetupAttachment(m_springArmComp);//å…³è”åˆ°å¼¹ç°§ç»„ä»¶
 
-	m_attributeComp = CreateDefaultSubobject<USAttributeComponent>("attributeComp");//ÊôĞÔ×é¼ş
+	m_attributeComp = CreateDefaultSubobject<USAttributeComponent>("attributeComp");//å±æ€§ç»„ä»¶
 
-	//1.½ÇÉ«Ğı×ªÓë¿ØÖÆÆ÷ÍÑ¹³£¬È·±£Êó±êÒÆ¶¯²»»áµ¼ÖÂ½ÇÉ«¸ú×ÅË®Æ½Ğı×ª
+	//1.è§’è‰²æ—‹è½¬ä¸æ§åˆ¶å™¨è„±é’©ï¼Œç¡®ä¿é¼ æ ‡ç§»åŠ¨ä¸ä¼šå¯¼è‡´è§’è‰²è·Ÿç€æ°´å¹³æ—‹è½¬
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 
-	//2.ÈÃ½ÇÉ«×ÜÊÇ³¯ÏòÔË¶¯·½Ïò
+	//2.è®©è§’è‰²æ€»æ˜¯æœå‘è¿åŠ¨æ–¹å‘
 	UCharacterMovementComponent* movement = GetCharacterMovement();
 	movement->bOrientRotationToMovement = true;
 
-	m_interactComp = CreateDefaultSubobject<USInteractionComponent>("interactionComp");//½»»¥×é¼ş
+	m_interactComp = CreateDefaultSubobject<USInteractionComponent>("interactionComp");//äº¤äº’ç»„ä»¶
 }
 
 // Called when the game starts or when spawned
@@ -47,8 +48,8 @@ void ASCharacter::BeginPlay()
 
 void ASCharacter::MoveForward(float value)
 {
-	FRotator control = GetControlRotation();//»ñµÃ¿ØÖÆÆ÷ÊäÈëµÄ¸©Ñö½Ç¡¢Æ«º½½Ç¡¢¹ö¶¯½Ç£¨ÓĞË³ĞòµÄ£©
-	control.Pitch = 0;//Ä¿Ç°Ö»ĞèÒªÈÃÈËÎïÆ«º½¼´¿É£¬ÆäËûÁ½¸öµÄÊäÈë¸ÄÎª0
+	FRotator control = GetControlRotation();//è·å¾—æ§åˆ¶å™¨è¾“å…¥çš„ä¿¯ä»°è§’ã€åèˆªè§’ã€æ»šåŠ¨è§’ï¼ˆæœ‰é¡ºåºçš„ï¼‰
+	control.Pitch = 0;//ç›®å‰åªéœ€è¦è®©äººç‰©åèˆªå³å¯ï¼Œå…¶ä»–ä¸¤ä¸ªçš„è¾“å…¥æ”¹ä¸º0
 	control.Roll = 0;
 	AddMovementInput(control.Vector(), value);
 	//AddMovementInput(GetActorForwardVector(), value);
@@ -61,12 +62,12 @@ void ASCharacter::MoveRight(float value)
 	//control.Pitch = 0;
 	//control.Roll = 0;
 
-	/*UEÊÇ×óÊÖ×ø±êÏµ
-	XÏòÇ°
-	YÏòÓÒ
-	ZÏòÉÏ	*/
-	//»ñÈ¡¿ØÖÆÆ÷µÄYÖáÏòÁ¿
-	FVector right = FRotationMatrix(control).GetScaledAxis(EAxis::Y);//»ñÈ¡controlÏòÁ¿ÔÚYÖáÉÏµÄÍ¶Ó°
+	/*UEæ˜¯å·¦æ‰‹åæ ‡ç³»
+	Xå‘å‰
+	Yå‘å³
+	Zå‘ä¸Š	*/
+	//è·å–æ§åˆ¶å™¨çš„Yè½´å‘é‡
+	FVector right = FRotationMatrix(control).GetScaledAxis(EAxis::Y);//è·å–controlå‘é‡åœ¨Yè½´ä¸Šçš„æŠ•å½±
 
 	AddMovementInput(right, value);
 }
@@ -79,19 +80,24 @@ void ASCharacter::MoveRight(float value)
 
 void ASCharacter::PrimaryAttack()
 {
-	//²¥·Å¶¯»­ÃÉÌ«Ææ
+	if(!IsIEReleased)
+	{
+		return;
+	}
+	IsIEReleased = false;
+	//æ’­æ”¾åŠ¨ç”»è’™å¤ªå¥‡
 	PlayAnimMontage(m_AttackAnim);
-	//ÉèÖÃ¶¨Ê±Æ÷£¬ÑÓ³Ù0.2sºóµ÷ÓÃÉú³É×Óµ¯µÄº¯Êı
+	//è®¾ç½®å®šæ—¶å™¨ï¼Œå»¶è¿Ÿ0.2såè°ƒç”¨ç”Ÿæˆå­å¼¹çš„å‡½æ•°
 	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.3f);
-	//GetWorldTimerManager().ClearTimer(TimerHandle_PrimaryAttack);//Çå³ı¶¨Ê±Æ÷
+	//GetWorldTimerManager().ClearTimer(TimerHandle_PrimaryAttack);//æ¸…é™¤å®šæ—¶å™¨
 }
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	//Éú³ÉÊ±µÄÎ»ÖÃ
+	//ç”Ÿæˆæ—¶çš„ä½ç½®
 	FVector spawnLocation = GetMesh()->GetSocketLocation("whip_IK_03_socket");
 
-	//Éú³ÉÊ±µÄ×ËÌ¬£¨³¯Ïò£©
+	//ç”Ÿæˆæ—¶çš„å§¿æ€ï¼ˆæœå‘ï¼‰
 	FHitResult hit;
 	FCollisionObjectQueryParams objectQueryParams;
 	FCollisionQueryParams queryParams;
@@ -99,44 +105,46 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	FVector EyeLocation;
 	FRotator EyeRotation;
 
-	GetController()->GetPlayerViewPoint(EyeLocation, EyeRotation);//»ñÈ¡Íæ¼Ò£¨ÉãÏñ»ú£©ÊÓ½ÇÎ»ÖÃ¡¢×ËÌ¬
+	GetController()->GetPlayerViewPoint(EyeLocation, EyeRotation);//è·å–ç©å®¶ï¼ˆæ‘„åƒæœºï¼‰è§†è§’ä½ç½®ã€å§¿æ€
 	start = EyeLocation;
-	end = EyeLocation + EyeRotation.Vector() * 2000;//³¬¹ı¾àÀë»á¼ì²â²»µ½Åö×²£¬²¢Ê¹ÓÃGetControlRotation()×÷Îª·½Ïò
-	//start = m_cameraComp->GetComponentLocation();//ÓëÉÏÃæĞ§¹ûÏàÍ¬
+	end = EyeLocation + EyeRotation.Vector() * 2000;//è¶…è¿‡è·ç¦»ä¼šæ£€æµ‹ä¸åˆ°ç¢°æ’ï¼Œå¹¶ä½¿ç”¨GetControlRotation()ä½œä¸ºæ–¹å‘
+	//start = m_cameraComp->GetComponentLocation();//ä¸ä¸Šé¢æ•ˆæœç›¸åŒ
 	//end = start + (GetControlRotation().Vector() * 2000);
 	
-	//objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//Ìí¼Ó±»Åö×²¼ì²âµÄÀàĞÍ
-	queryParams.AddIgnoredActor(this);//±ÜÃâÓë½ÇÉ«Åö×²¼ì²â£¬·ñÔò½ÇÉ«Ãæ³¯ÓÒ²à£¬ÓÒÊÖ·¢Éä×Óµ¯Ê±»áÓë½ÇÉ«Åö×²£¬È»ºó×Óµ¯·ÉÏò½ÇÉ«
+	//objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//æ·»åŠ è¢«ç¢°æ’æ£€æµ‹çš„ç±»å‹
+	queryParams.AddIgnoredActor(this);//é¿å…ä¸è§’è‰²ç¢°æ’æ£€æµ‹ï¼Œå¦åˆ™è§’è‰²é¢æœå³ä¾§ï¼Œå³æ‰‹å‘å°„å­å¼¹æ—¶ä¼šä¸è§’è‰²ç¢°æ’ï¼Œç„¶åå­å¼¹é£å‘è§’è‰²
 	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(hit, start, end, objectQueryParams, queryParams);
 	UE_LOG(LogTemp, Log, TEXT("start:%s, end:%s"), *start.ToString(), *end.ToString());
 	FColor lineColor = bBlockingHit ? FColor::Green : FColor::Red;
-	DrawDebugLine(GetWorld(), start, end, lineColor, false, 2.f, 0, 2.f);//»æÖÆÒ»ÌõÖ¸Ïò±¦ÏäµÄÏß¶Î
+	DrawDebugLine(GetWorld(), start, end, lineColor, false, 2.f, 0, 2.f);//ç»˜åˆ¶ä¸€æ¡æŒ‡å‘å®ç®±çš„çº¿æ®µ
 
-	AActor* hitActor = hit.GetActor();//±»»÷ÖĞ¶ÔÏó
+	AActor* hitActor = hit.GetActor();//è¢«å‡»ä¸­å¯¹è±¡
 	FRotator spawnRotation;
 	if (hitActor)
 	{		
 		spawnRotation = UKismetMathLibrary::FindLookAtRotation(spawnLocation, hit.ImpactPoint);
-		//spawnRotation = FRotationMatrix::MakeFromX(hit.ImpactPoint - spawnLocation).Rotator();//ÓëÉÏÃæĞ§¹ûÏàÍ¬
+		//spawnRotation = FRotationMatrix::MakeFromX(hit.ImpactPoint - spawnLocation).Rotator();//ä¸ä¸Šé¢æ•ˆæœç›¸åŒ
 	}
 	else
 	{
 		spawnRotation = GetControlRotation();
 	}
 
-	//Éú³É¹æÔò
+	//ç”Ÿæˆè§„åˆ™
 	FActorSpawnParameters spawnParams;
-	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;//±ÜÃâÉú³ÉÊ±¿¨ÔÚÄ£ĞÍÀï
-	spawnParams.Instigator = this;//×Óµ¯ÓµÓĞÕß
+	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;//é¿å…ç”Ÿæˆæ—¶å¡åœ¨æ¨¡å‹é‡Œ
+	spawnParams.Instigator = this;//å­å¼¹æ‹¥æœ‰è€…
 
-	if (ensure(m_projectileClass))//ÓÃ¶ÏÑÔ¼ì²éÌõ¼şÊÇ·ñÎªÕæ
+	if (ensure(m_projectileClass))//ç”¨æ–­è¨€æ£€æŸ¥æ¡ä»¶æ˜¯å¦ä¸ºçœŸ
 	{
 		FTransform spawnTM = FTransform(spawnRotation, spawnLocation);
 		GetWorld()->SpawnActor<AActor>(m_projectileClass, spawnTM, spawnParams);
 	}
+
+	IsIEReleased = true;
 }
 
-//½«²éÑ¯ÎïÌå¡¢½»»¥²Ù×÷·Åµ½×é¼ş¶ÔÏóÖĞ£¬ÊµÏÖ½»»¥¹¦ÄÜÓëActorÀà½âñî
+//å°†æŸ¥è¯¢ç‰©ä½“ã€äº¤äº’æ“ä½œæ”¾åˆ°ç»„ä»¶å¯¹è±¡ä¸­ï¼Œå®ç°äº¤äº’åŠŸèƒ½ä¸Actorç±»è§£è€¦
 void ASCharacter::PrimaryInteract()
 {
 	if (m_interactComp)
@@ -147,10 +155,25 @@ void ASCharacter::PrimaryInteract()
 
 void ASCharacter::HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
 {
-	if (NewHealth <= 0.f && Delta < 0.f)
+	if (NewHealth <= 0.f)
 	{
 		APlayerController* pc = Cast<APlayerController>(GetController());
-		DisableInput(pc);//½ûÖ¹¿ØÖÆÆ÷ÊäÈë
+		DisableInput(pc);//ç¦æ­¢æ§åˆ¶å™¨è¾“å…¥
+	}
+	else
+	{
+		if(Delta > 0)
+		{
+			
+		}
+		else if(Delta == 0)
+		{
+			//do nothing
+		}
+		else
+		{
+			
+		}
 	}
 }
 
@@ -158,7 +181,7 @@ void ASCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	m_attributeComp->m_OnHealthChanged.AddDynamic(this, &ASCharacter::HealthChanged);//½ÇÉ«ËÀÍöºó½ûÖ¹²Ù×÷ÊäÈë
+	m_attributeComp->m_OnHealthChanged.AddDynamic(this, &ASCharacter::HealthChanged);//è§’è‰²æ­»äº¡åç¦æ­¢æ“ä½œè¾“å…¥
 }
 
 // Called every frame
@@ -173,12 +196,12 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &ASCharacter::MoveForward);//Ç°ºóÒÆ¶¯
-	PlayerInputComponent->BindAxis("MoveRight", this, &ASCharacter::MoveRight);//×óÓÒÒÆ¶¯
+	PlayerInputComponent->BindAxis("MoveForward", this, &ASCharacter::MoveForward);//å‰åç§»åŠ¨
+	PlayerInputComponent->BindAxis("MoveRight", this, &ASCharacter::MoveRight);//å·¦å³ç§»åŠ¨
 
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);//Æ«º½½ÇÒÆ¶¯£¬Ê¹ÓÃ¼Ì³ĞµÄº¯Êı
-	PlayerInputComponent->BindAxis("Pitch", this, &APawn::AddControllerPitchInput);//¸©Ñö½Ç
-	PlayerInputComponent->BindAction("JumpUp", IE_Pressed, this, &ASCharacter::Jump);//ÌøÔ¾
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);//åèˆªè§’ç§»åŠ¨ï¼Œä½¿ç”¨ç»§æ‰¿çš„å‡½æ•°
+	PlayerInputComponent->BindAxis("Pitch", this, &APawn::AddControllerPitchInput);//ä¿¯ä»°è§’
+	PlayerInputComponent->BindAction("JumpUp", IE_Pressed, this, &ASCharacter::Jump);//è·³è·ƒ
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Released, this, &ASCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("Interaction", IE_Released, this, &ASCharacter::PrimaryInteract);

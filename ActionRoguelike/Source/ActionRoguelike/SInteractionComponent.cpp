@@ -16,19 +16,19 @@ USInteractionComponent::USInteractionComponent()
 
 //#define LineTrace
 
-//ÊµÏÖ²éÕÒ½»»¥¿É¶ÔÏó£»µ÷ÓÃ½»»¥¶ÔÏóµÄ½»»¥º¯Êı
+//å®ç°æŸ¥æ‰¾äº¤äº’å¯å¯¹è±¡ï¼›è°ƒç”¨äº¤äº’å¯¹è±¡çš„äº¤äº’å‡½æ•°
 void USInteractionComponent::PrimaryInteract()
 {
 	FCollisionObjectQueryParams objectQueryParams;
-	objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//Ìí¼Ó±»Åö×²¼ì²âµÄÀàĞÍ
+	objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//æ·»åŠ è¢«ç¢°æ’æ£€æµ‹çš„ç±»å‹
 
-	AActor* owner = GetOwner();//»ñÈ¡×é¼şËùÓĞÕß
+	AActor* owner = GetOwner();//è·å–ç»„ä»¶æ‰€æœ‰è€…
 
 	FVector EyeLocation;
 	FRotator EyeRotation;
-	owner->GetActorEyesViewPoint(EyeLocation, EyeRotation);//»ñÈ¡ActorµÄÏà»úÎ»ÖÃºÍ×ËÌ¬
+	owner->GetActorEyesViewPoint(EyeLocation, EyeRotation);//è·å–Actorçš„ç›¸æœºä½ç½®å’Œå§¿æ€
 
-	FVector end = EyeLocation + EyeRotation.Vector() * 1000;//vector()¿ÉÄÜ·µ»Øµ¥Î»ÏòÁ¿£¬1000µ¥Î»ÊÇÀåÃ×
+	FVector end = EyeLocation + EyeRotation.Vector() * 1000;//vector()å¯èƒ½è¿”å›å•ä½å‘é‡ï¼Œ1000å•ä½æ˜¯å˜ç±³
 
 #ifdef LineTrace	
 	FHitResult hit;
@@ -38,19 +38,19 @@ void USInteractionComponent::PrimaryInteract()
 	{
 		if (hitActor->Implements<USGameplayInterface>())
 		{
-			APawn* pawn = Cast<APawn>(owner);//UE¶¨ÒåµÄ°²È«ÀàĞÍ×ª»»
+			APawn* pawn = Cast<APawn>(owner);//UEå®šä¹‰çš„å®‰å…¨ç±»å‹è½¬æ¢
 
-			ISGameplayInterface::Execute_Interact(hitActor, pawn);//´¥·¢hitActorµÄ½»»¥º¯Êı£¬Èë²ÎÊÇpawn
+			ISGameplayInterface::Execute_Interact(hitActor, pawn);//è§¦å‘hitActorçš„äº¤äº’å‡½æ•°ï¼Œå…¥å‚æ˜¯pawn
 		}
 	}
 
 	FColor lineColor = bBlockingHit ? FColor::Green : FColor::Red;
-	DrawDebugLine(GetWorld(), EyeLocation, end, lineColor, false, 2.f, 0, 2.f);//»æÖÆÒ»ÌõÖ¸Ïò±¦ÏäµÄÏß¶Î
+	DrawDebugLine(GetWorld(), EyeLocation, end, lineColor, false, 2.f, 0, 2.f);//ç»˜åˆ¶ä¸€æ¡æŒ‡å‘å®ç®±çš„çº¿æ®µ
 #else
 	TArray<FHitResult> hits;
 
 	float Radius = 30.f;
-	FCollisionShape shape;//Åö×²¼ì²âµÄĞÎ×´
+	FCollisionShape shape;//ç¢°æ’æ£€æµ‹çš„å½¢çŠ¶
 	shape.SetSphere(Radius);
 	
 	bool bBlockingHit = GetWorld()->SweepMultiByObjectType(hits, EyeLocation, end, FQuat::Identity, objectQueryParams, shape);
@@ -62,15 +62,15 @@ void USInteractionComponent::PrimaryInteract()
 		{
 			if (hitActor->Implements<USGameplayInterface>())
 			{
-				APawn* pawn = Cast<APawn>(owner);//UE¶¨ÒåµÄ°²È«ÀàĞÍ×ª»»
+				APawn* pawn = Cast<APawn>(owner);//UEå®šä¹‰çš„å®‰å…¨ç±»å‹è½¬æ¢
 
-				ISGameplayInterface::Execute_Interact(hitActor, pawn);//´¥·¢hitActorµÄ½»»¥º¯Êı£¬Èë²ÎÊÇpawn
+				ISGameplayInterface::Execute_Interact(hitActor, pawn);//è§¦å‘hitActorçš„äº¤äº’å‡½æ•°ï¼Œå…¥å‚æ˜¯pawn
 			}
-			DrawDebugSphere(GetWorld(), hit.ImpactPoint, 10.f, 32, lineColor, false, 2.f, 0, 2.f);//ÔÚÅö×²¼ì²â»÷ÖĞ±¦ÏäµÄÎ»ÖÃ»­Ò»¸öÇò
+			DrawDebugSphere(GetWorld(), hit.ImpactPoint, 10.f, 32, lineColor, false, 2.f, 0, 2.f);//åœ¨ç¢°æ’æ£€æµ‹å‡»ä¸­å®ç®±çš„ä½ç½®ç”»ä¸€ä¸ªçƒ
 			break;
 		}
 	}
-	DrawDebugLine(GetWorld(), EyeLocation, end, lineColor, false, 2.f, 0, 2.f);//»æÖÆÒ»ÌõÖ¸Ïò±¦ÏäµÄÏß¶Î
+	DrawDebugLine(GetWorld(), EyeLocation, end, lineColor, false, 2.f, 0, 2.f);//ç»˜åˆ¶ä¸€æ¡æŒ‡å‘å®ç®±çš„çº¿æ®µ
 #endif
 
 }

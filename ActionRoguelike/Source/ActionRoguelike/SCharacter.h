@@ -1,14 +1,14 @@
 /*******************************************************************
-*°æÈ¨ĞÅÏ¢£ºCopyright xxxxxxxxxxxxxxxxxxxxxx
-*ÎÄ¼şÃû³Æ£º
-*ÎÄ¼ş±êÊ¶£º
-*ÕªÒª£º
-*×÷Õß£ºwangzibin
-*ÈÕÆÚ£º20230311
-*±¸×¢£º½ÇÉ«ÀàĞÍ
+*ç‰ˆæƒä¿¡æ¯ï¼šCopyright xxxxxxxxxxxxxxxxxxxxxx
+*æ–‡ä»¶åç§°ï¼š
+*æ–‡ä»¶æ ‡è¯†ï¼š
+*æ‘˜è¦ï¼š
+*ä½œè€…ï¼šwangzibin
+*æ—¥æœŸï¼š20230311
+*å¤‡æ³¨ï¼šè§’è‰²ç±»å‹
 *
-*µ±Ç°°æ±¾£º
-*°æ±¾ËµÃ÷£ºĞÂ½¨
+*å½“å‰ç‰ˆæœ¬ï¼š
+*ç‰ˆæœ¬è¯´æ˜ï¼šæ–°å»º
 *******************************************************************/
 #pragma once
 
@@ -33,14 +33,16 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* m_AttackAnim;
 
-	FTimerHandle TimerHandle_PrimaryAttack;//×Óµ¯Éú³É¶¨Ê±Æ÷
+	FTimerHandle TimerHandle_PrimaryAttack;//å­å¼¹ç”Ÿæˆå®šæ—¶å™¨
+
+	TAtomic<bool> IsIEReleased;//é¼ æ ‡æ¾å¼€äº‹ä»¶æ˜¯å¦æ­£åœ¨å¤„ç†ï¼Œç¡®ä¿æ”»å‡»åŠ¨ä½œèƒ½å®Œæ•´æ’­æ”¾
 
 public:
 	// Sets default values for this character's properties
 	ASCharacter();
 
 protected:
-	UPROPERTY(VisibleAnywhere)//ÔÚÀ¶Í¼±à¼­Ò³Ãæ¿ÉÒÔ¿´µ½¸Ã×é¼şµÄËùÓĞÊôĞÔ£¬ÓÒ²àÃæ°å
+	UPROPERTY(VisibleAnywhere)//åœ¨è“å›¾ç¼–è¾‘é¡µé¢å¯ä»¥çœ‹åˆ°è¯¥ç»„ä»¶çš„æ‰€æœ‰å±æ€§ï¼Œå³ä¾§é¢æ¿
 	USpringArmComponent* m_springArmComp;
 
 	UPROPERTY(VisibleAnywhere)
@@ -55,22 +57,22 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	//¼üÅÌ£¬ÏòÇ°ÒÆ¶¯
+	//é”®ç›˜ï¼Œå‘å‰ç§»åŠ¨
 	void MoveForward(float value);
-	//¼üÅÌ£¬ÏòÓÒÒÆ¶¯
+	//é”®ç›˜ï¼Œå‘å³ç§»åŠ¨
 	void MoveRight(float value);
-	//¼üÅÌ£¬ÌøÆğ
+	//é”®ç›˜ï¼Œè·³èµ·
 	//void JumpUp();
-	//·¢¶¯¹¥»÷
+	//å‘åŠ¨æ”»å‡»
 	void PrimaryAttack();
 	void PrimaryAttack_TimeElapsed();
-	//Óë±¦Ïä½»»¥£¬´¥·¢
+	//ä¸å®ç®±äº¤äº’ï¼Œè§¦å‘
 	void PrimaryInteract();
 
 	UFUNCTION()
-		void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//¶¨ÒåÊÂ¼ş´¦Àíº¯Êı
+		void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//å®šä¹‰äº‹ä»¶å¤„ç†å‡½æ•°
 
-	virtual void PostInitializeComponents() override;//×é¼ş³õÊ¼»¯ºó²Ù×÷
+	virtual void PostInitializeComponents() override;//ç»„ä»¶åˆå§‹åŒ–åæ“ä½œ
 
 public:	
 	// Called every frame
