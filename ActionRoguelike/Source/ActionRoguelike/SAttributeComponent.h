@@ -40,6 +40,8 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
-	float m_health;
+	float m_health;//当前生命
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
+	float m_maxHealth;//生命上限
 };
