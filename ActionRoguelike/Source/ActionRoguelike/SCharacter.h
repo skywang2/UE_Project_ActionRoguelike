@@ -49,7 +49,7 @@ protected:
 	UCameraComponent* m_cameraComp;
 
 	UPROPERTY(VisibleAnywhere)
-	USInteractionComponent* m_interactComp;
+	USInteractionComponent* m_interactComp;//交互组件
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	USAttributeComponent* m_attributeComp;
@@ -70,7 +70,7 @@ protected:
 	void PrimaryInteract();
 
 	UFUNCTION()
-		void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//定义事件处理函数
+	void HealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);//定义事件处理函数
 
 	virtual void PostInitializeComponents() override;//组件初始化后操作
 

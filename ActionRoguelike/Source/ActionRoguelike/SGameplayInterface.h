@@ -34,5 +34,5 @@ class ACTIONROGUELIKE_API ISGameplayInterface
 public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)//u8"旨在被蓝图覆盖掉，但是也具有默认原生实现"
-	void Interact(APawn* pawn);
+	void Interact(APawn* pawn);//定义一个公共操作，可以不叫Interact，Open、Close都行，能够使Actor拥有该接口，关联到具体Actor的函数
 };

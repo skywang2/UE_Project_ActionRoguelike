@@ -44,7 +44,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundCue* m_spawnSoundCue;//音频组件
-	
+
+	UPROPERTY(EditAnywhere, Category = "Attribution")
+	double m_damageVal;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

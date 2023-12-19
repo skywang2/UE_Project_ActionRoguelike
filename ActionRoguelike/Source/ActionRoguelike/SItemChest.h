@@ -25,6 +25,7 @@ class ACTIONROGUELIKE_API ASItemChest : public AActor, public ISGameplayInterfac
 public:
 	UPROPERTY(EditAnywhere)
 	float TargetPitch;
+	
 	//触发ISGameplayInterface对象的Interact函数时，会自动调用该函数
 	void Interact_Implementation(APawn* pawn);
 

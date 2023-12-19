@@ -10,6 +10,7 @@
 
 // Sets default values
 ASMagicProjectile::ASMagicProjectile()
+	:m_damageVal(-2.0)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -60,7 +61,7 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 		USAttributeComponent* attributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (attributeComp)
 		{
-			attributeComp->ApplyHealthChange(-2.f);//击中时扣固定血量
+			attributeComp->ApplyHealthChange(m_damageVal);//击中时扣固定血量
 			UE_LOG(LogTemp, Log, TEXT("hit object has attributecomp"));
 		}
 		else
