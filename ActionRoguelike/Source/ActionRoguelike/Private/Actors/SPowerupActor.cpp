@@ -20,7 +20,8 @@ ASPowerupActor::ASPowerupActor()
 	m_healVal(10.0)
 {
 	m_sphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
-	m_sphereComp->SetupAttachment(RootComponent);	
+	m_sphereComp->SetupAttachment(RootComponent);
+	m_sphereComp->SetCollisionProfileName("Powerup");//todo:创建一个Powerup碰撞属性配置
 }
 
 void ASPowerupActor::Interact_Implementation(APawn* instigator)

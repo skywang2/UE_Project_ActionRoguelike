@@ -29,5 +29,6 @@ public:
 	virtual void Interact_Implementation(APawn* instigator) override;
 
 protected:
-	//todo:添加一个网格模型
+	UPROPERTY(VisibleAnywhere, Category="Component")
+	UStaticMeshComponent* m_MeshComp;
 };

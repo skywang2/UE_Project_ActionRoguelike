@@ -18,7 +18,9 @@
 
 ASPowerup_HealthPotion::ASPowerup_HealthPotion()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	m_MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("MeshComp");
+	m_MeshComp->SetupAttachment(RootComponent);
+	m_MeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ASPowerup_HealthPotion::Interact_Implementation(APawn* instigator)

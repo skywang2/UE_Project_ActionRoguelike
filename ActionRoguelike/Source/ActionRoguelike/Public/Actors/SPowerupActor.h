@@ -43,7 +43,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	USphereComponent* m_sphereComp;//网格组件
 
-	FTimerHandle m_respawnTimeHandle;
+	FTimerHandle m_respawnTimeHandle;//定时器句柄
 	
 	UPROPERTY(EditAnywhere, Category = "Powerup")
 	double m_respawnTime;
