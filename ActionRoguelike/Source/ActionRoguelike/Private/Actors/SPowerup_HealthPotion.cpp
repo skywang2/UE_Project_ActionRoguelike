@@ -19,19 +19,23 @@
 ASPowerup_HealthPotion::ASPowerup_HealthPotion()
 {
 	m_MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("MeshComp");
-	m_MeshComp->SetupAttachment(RootComponent);
+	m_MeshComp->SetupAttachment(m_sphereComp);
 	m_MeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ASPowerup_HealthPotion::Interact_Implementation(APawn* instigator)
 {
-	if(ensure(instigator))
+	if(!instigator)
 	{
-		USAttributeComponent* attributeComp = Cast<USAttributeComponent>(instigator->GetComponentByClass(USAttributeComponent::StaticClass()));
-		if (attributeComp)
-		{
-			attributeComp->ApplyHealthChange(m_healVal);//改变血量
-			UE_LOG(LogTemp, Log, TEXT("hit object has attributecomp"));
-		}
+		UE_LOG(LogTemp, Log, TEXT("no instigator"));
+		return;
+	}
+	
+	USAttributeComponent* attributeComp = Cast<USAttributeComponent>(instigator->GetComponentByClass(USAttributeComponent::StaticClass()));
+	if (attributeComp)
+	{
+		attributeComp->ApplyHealthChange(m_healVal);//改变血量
+		UE_LOG(LogTemp, Log, TEXT("hit object has attributecomp"));
+		HideAndCooldownPowerup();
 	}
 }

@@ -12,7 +12,7 @@ USInteractionComponent::USInteractionComponent()
 void USInteractionComponent::PrimaryInteract()
 {
 	FCollisionObjectQueryParams objectQueryParams;
-	objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//添加被碰撞检测的类型
+	objectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);//添加被碰撞检测的类型，只搜索WorldDynamic类型的对象
 
 	AActor* owner = GetOwner();//获取组件所有者
 

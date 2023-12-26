@@ -20,7 +20,7 @@ ASPowerupActor::ASPowerupActor()
 	m_healVal(10.0)
 {
 	m_sphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
-	m_sphereComp->SetupAttachment(RootComponent);
+	RootComponent = m_sphereComp;
 	m_sphereComp->SetCollisionProfileName("Powerup");//todo:创建一个Powerup碰撞属性配置
 }
 
@@ -33,6 +33,7 @@ void ASPowerupActor::ShowPowerup()
 	SetPowerupState(true);
 }
 
+//使用定时器，自动调用开启碰撞和可见
 void ASPowerupActor::HideAndCooldownPowerup()
 {
 	SetPowerupState(false);

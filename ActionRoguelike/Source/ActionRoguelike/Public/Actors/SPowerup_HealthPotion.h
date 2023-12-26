@@ -29,6 +29,6 @@ public:
 	virtual void Interact_Implementation(APawn* instigator) override;
 
 protected:
-	UPROPERTY(VisibleAnywhere, Category="Component")
+	UPROPERTY(EditAnywhere, Category="Component")
 	UStaticMeshComponent* m_MeshComp;
 };
