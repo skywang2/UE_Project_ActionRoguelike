@@ -1,5 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+/*******************************************************************
+*版权信息：Copyright ©2023-2023 wangzibin, All Rights Reserved.
+*文件名称：
+*文件标识：
+*摘要：
+*作者：wangzibin
+*日期：20240214
+*备注：定义一个GameMode，用于定时生成AI对象
+*
+*当前版本：
+*版本说明：新建
+*******************************************************************/
 #pragma once
 
 #include "CoreMinimal.h"
@@ -19,6 +29,9 @@ class ACTIONROGUELIKE_API ASGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 protected:
+	UPROPERTY(EditDefaultsOnly, Category="AI")
+	UCurveFloat* DifficultyCurve;
+	
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	TSubclassOf<AActor> MinionClass;//需要生成的对象
 	

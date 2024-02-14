@@ -3,6 +3,7 @@
 
 #include "AI/SAICharacter.h"
 
+#include "ActionRoguelike/SAttributeComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
 ASAICharacter::ASAICharacter()
@@ -12,4 +13,7 @@ ASAICharacter::ASAICharacter()
 
 	//创建感知组件
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
+
+	//添加属性组件
+	m_attributeComp = CreateDefaultSubobject<USAttributeComponent>("AttributeComponent");
 }
