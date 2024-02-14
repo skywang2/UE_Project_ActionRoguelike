@@ -42,7 +42,8 @@ void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponen
 				AIC->GetBrainComponent()->StopLogic("killed");
 			}
 			// ragdoll，布娃娃物理效果，角色倒地时使用
-			GetMesh()->SetAllBodiesSimulatePhysics(true);
+			GetMesh()->SetAllBodiesSimulatePhysics(true);//全身模型使用物理效果
+			GetMesh()->SetCollisionProfileName("ragdoll");
 			//延迟删除该对象
 			SetLifeSpan(3.f);
 		}
