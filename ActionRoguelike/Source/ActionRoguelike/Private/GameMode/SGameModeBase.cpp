@@ -22,23 +22,6 @@ void ASGameModeBase::StartPlay()
 
 void ASGameModeBase::SpawnTimerElapsed()
 {
-	UEnvQueryInstanceBlueprintWrapper* queryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
-
-	if(ensure(queryInstance))
-	{
-		queryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnQueryCompleted);
-	}
-}
-
-void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance,
-	EEnvQueryStatus::Type QueryStatus)
-{
-	if(QueryStatus != EEnvQueryStatus::Success)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Spawn bot EQS Query Failed. %s"), "this is addition things.");
-		return;
-	}
-
 	int32 NrOfAliveBots = 0;
 	for(TActorIterator<ASAICharacter> it(GetWorld()); it; ++it)
 	{
@@ -58,6 +41,22 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 	}
 	if(NrOfAliveBots >= maxBotCount)
 	{
+		return;
+	}
+
+	UEnvQueryInstanceBlueprintWrapper* queryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
+	if(ensure(queryInstance))
+	{
+		queryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnQueryCompleted);
+	}
+}
+
+void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance,
+	EEnvQueryStatus::Type QueryStatus)
+{
+	if(QueryStatus != EEnvQueryStatus::Success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawn bot EQS Query Failed. %s"), "this is addition things.");
 		return;
 	}
 	

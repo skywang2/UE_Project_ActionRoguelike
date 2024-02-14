@@ -13,7 +13,15 @@ UCLASS()
 class ACTIONROGUELIKE_API ASAICharacter : public ACharacter
 {
 	GENERATED_BODY()
-
+protected:
+	virtual void PostInitializeComponents() override;
+	
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
+	
+	UFUNCTION()
+	void OnPawnSeen(APawn* Pawn);	
+	
 public:
 	ASAICharacter();
 
