@@ -7,6 +7,7 @@
 #include "AIHelpers.h"
 #include "BrainComponent.h"
 #include "ActionRoguelike/SAttributeComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
 ASAICharacter::ASAICharacter()
@@ -29,9 +30,27 @@ void ASAICharacter::PostInitializeComponents()
 	m_attributeComp->m_OnHealthChanged.AddDynamic(this, &ASAICharacter::OnHealthChanged);
 }
 
-void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
-	float Delta)
+void ASAICharacter::SetTargetActor(AActor* NewTarget)
 {
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if(AIC)
+	{
+		UBlackboardComponent* blackBoard = AIC->GetBlackboardComponent();
+		if(blackBoard)
+		{
+			blackBoard->SetValueAsObject("TargetActor", NewTarget);
+		}
+	}
+}
+
+void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
+                                    float Delta)
+{
+	if(InstigatorActor != this)
+	{
+		SetTargetActor(InstigatorActor);// 谁打机器人，机器人就打谁
+	}
+	
 	if(Delta < 0.f)
 	{
 		if(NewHealth <= 0.f)// 生命小于0则停止AI控制器，并启用物理倒地效果，延迟删除对象
@@ -52,5 +71,6 @@ void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponen
 
 void ASAICharacter::OnPawnSeen(APawn* Pawn)
 {
-	AAIController* AIC = Cast<AAIController>(GetController());
+	SetTargetActor(Pawn);//机器人看到谁就打谁
+	UE_LOG(LogTemp, Display, TEXT("robot see something"));
 }

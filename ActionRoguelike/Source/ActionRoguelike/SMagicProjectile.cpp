@@ -61,7 +61,7 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 		USAttributeComponent* attributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (attributeComp)
 		{
-			attributeComp->ApplyHealthChange(m_damageVal);//击中时扣固定血量
+			attributeComp->ApplyHealthChange(GetInstigator(), m_damageVal);// 击中时扣固定血量，事件触发者设置为发出子弹的角色
 			UE_LOG(LogTemp, Log, TEXT("hit object has attributecomp"));
 		}
 		else

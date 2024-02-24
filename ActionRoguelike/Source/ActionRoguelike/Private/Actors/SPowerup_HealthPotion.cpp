@@ -34,7 +34,7 @@ void ASPowerup_HealthPotion::Interact_Implementation(APawn* instigator)
 	USAttributeComponent* attributeComp = Cast<USAttributeComponent>(instigator->GetComponentByClass(USAttributeComponent::StaticClass()));
 	if (attributeComp)
 	{
-		attributeComp->ApplyHealthChange(m_healVal);//改变血量
+		attributeComp->ApplyHealthChange(this, m_healVal);//改变血量
 		UE_LOG(LogTemp, Log, TEXT("hit object has attributecomp"));
 		HideAndCooldownPowerup();
 	}

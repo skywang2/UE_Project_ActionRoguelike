@@ -15,6 +15,8 @@ class ACTIONROGUELIKE_API ASAICharacter : public ACharacter
 	GENERATED_BODY()
 protected:
 	virtual void PostInitializeComponents() override;
+
+	void SetTargetActor(AActor* NewTarget);
 	
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
@@ -22,13 +24,12 @@ protected:
 	UFUNCTION()
 	void OnPawnSeen(APawn* Pawn);	
 	
-public:
-	ASAICharacter();
-
 	UPROPERTY(VisibleAnywhere, Category="Componens")
 	UPawnSensingComponent* PawnSensingComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	USAttributeComponent* m_attributeComp;
 
+public:
+	ASAICharacter();
 };
