@@ -4,8 +4,16 @@
 #include "AI/SBTTask_RangedAttack.h"
 
 #include "AIController.h"
+// #include "ModuleDescriptor.h"
+#include "ActionRoguelike/SAttributeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
+
+
+USBTTask_RangedAttack::USBTTask_RangedAttack()
+	:MaxBulletSpread(2.f)
+{
+}
 
 /* brief 从黑板获取目标位置，并从当前枪口生成子弹飞向目标
  * ParamIn OwnerComp
@@ -37,11 +45,21 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 		{
 			return EBTNodeResult::Failed;
 		}
+
+		if(!USAttributeComponent::IsAlive(target))
+		{
+			return EBTNodeResult::Failed;
+		}
+		
 		FVector targetLocation = target->GetActorLocation();
 		
 		//生成子弹并拥有初始方向、速度
 		FVector muzzleDirection = targetLocation - muzzleLocation;
 		FRotator muzzleRotation = muzzleDirection.Rotation();
+		//给射击增加一些漂移
+		muzzleRotation.Pitch += FMath::RandRange(-MaxBulletSpread, MaxBulletSpread);
+		muzzleRotation.Yaw += FMath::RandRange(-MaxBulletSpread, MaxBulletSpread);
+		//actor生成参数
 		FActorSpawnParameters spawnParam;
 		spawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		spawnParam.Instigator = pawn;

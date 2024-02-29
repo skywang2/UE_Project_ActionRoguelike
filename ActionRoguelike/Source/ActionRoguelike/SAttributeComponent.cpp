@@ -24,3 +24,20 @@ bool USAttributeComponent::IsAlive()
 {
 	return m_health > 0.f;
 }
+
+//IsAlive静态版本
+bool USAttributeComponent::IsAlive(AActor* actor)
+{
+	USAttributeComponent* attrComp = GetAttributes(actor);
+	return attrComp->IsAlive();
+}
+
+USAttributeComponent* USAttributeComponent::GetAttributes(AActor* FromActor)
+{
+	if(FromActor)
+	{
+		return Cast<USAttributeComponent>(FromActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+	}
+
+	return nullptr;
+}

@@ -35,6 +35,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive();
 
+	static bool IsAlive(AActor* actor);
+	
+	static USAttributeComponent* GetAttributes(AActor* FromActor);
+	
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged m_OnHealthChanged;
 
