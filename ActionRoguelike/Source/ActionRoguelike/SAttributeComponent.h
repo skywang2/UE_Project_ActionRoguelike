@@ -32,11 +32,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool ApplyHealthChange(AActor* InstigatorActor, float Delta);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "MyFunctions")
 	bool IsAlive();
 
 	static bool IsAlive(AActor* actor);
-	
+
+	UFUNCTION(BlueprintCallable)
 	static USAttributeComponent* GetAttributes(AActor* FromActor);
 	
 	UPROPERTY(BlueprintAssignable)
